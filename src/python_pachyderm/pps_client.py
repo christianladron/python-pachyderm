@@ -50,16 +50,38 @@ class PpsClient(object):
     def restart_datum(self, job_id, data_filters=tuple()):
         self.stub.RestartDatum(RestartDatumRequest(job=Job(id=job_id, data_filters=data_filters)))
 
-    def create_pipeline(self, pipeline, transform, parallelism_spec, egress, update, output_branch,
-                        scale_down_threshold, resource_spec, input, description, incremental, cache_size, enable_stats,
-                        reprocess, batch, scheduling_spec, standby, service, pod_spec):
-        self.stub.CreatePipeline(
-            CreatePipelineRequest(pipeline=pipeline, transform=transform, parallelism_spec=parallelism_spec,
-                                  egress=egress, update=update, output_branch=output_branch,
-                                  scale_down_threshold=scale_down_threshold, input=input, standby=standby,
-                                  description=description, incremental=incremental, cache_size=cache_size,
-                                  enable_stats=enable_stats, reprocess=reprocess, batch=batch, scheduling_spec=scheduling_spec, service=service,datum_tries=1,
-                                  pod_spec=pod_spec))
+    def create_pipeline(self, spec):
+        """
+        Creates a pipeline
+        :key pipeline: dictionary
+        :key transform: dictionary
+        :key parallelism_spec: dictionary
+        :key hashtree_spec: dictionary
+        :key egress: dictionary
+        :key update: bool
+        :key output_branch: string
+        :key scale_down_threshold: string
+        :key resource_requests: dictionary
+        :key resource_limits: dictionary
+        :key input: dictionary
+        :key description: string
+        :key cache_size: string
+        :key enable_stats: bool
+        :key reprocess: bool
+        :key batch: bool
+        :key max_queue_size: int
+        :key service: dictionary
+        :key chunk_spec: dictionary
+        :key datum_timeout: string
+        :key job_timeout: string
+        :key salt: string
+        :key standby: bool
+        :key datum_tries: int
+        :key scheduling_spec: dictionary
+        :key pod_spec: string
+        :key pod_patch: string
+        """
+        self.stub.CreatePipeline(CreatePipelineRequest(**spec))
 
     def inspect_pipeline(self, pipeline_name):
         return self.stub.InspectPipeline(InspectPipelineRequest(pipeline=Pipeline(name=pipeline_name)))
