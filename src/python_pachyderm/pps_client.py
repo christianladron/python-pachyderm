@@ -50,7 +50,7 @@ class PpsClient(object):
     def restart_datum(self, job_id, data_filters=tuple()):
         self.stub.RestartDatum(RestartDatumRequest(job=Job(id=job_id, data_filters=data_filters)))
 
-    def create_pipeline(self, spec):
+    def create_pipeline_dict(self, spec):
         """
         Creates a pipeline
         :key pipeline: dictionary
